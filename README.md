@@ -46,6 +46,59 @@ um checklist de revisão e as relações com outros padrões.
 | [template-method](skills/template-method/SKILL.md) | Esqueleto de algoritmo com etapas sobrescrevíveis. |
 | [visitor](skills/visitor/SKILL.md) | Separa operações da estrutura de objetos. |
 
+## Qual padrão usar?
+
+Comece pelo problema que você tem, não pelo padrão. Encontre abaixo a situação mais parecida com a sua.
+
+### Criar objetos
+
+| Situação | Padrão |
+| --- | --- |
+| O código faz `new ClasseConcreta()` espalhado e precisa aceitar novos tipos sem mudar o cliente. | [Factory Method](skills/factory-method/SKILL.md) |
+| Você cria **famílias** de objetos que precisam combinar entre si (tema claro/escuro, Windows/Mac, um driver por banco). | [Abstract Factory](skills/abstract-factory/SKILL.md) |
+| O construtor tem muitos parâmetros opcionais, ou o objeto é montado em etapas. | [Builder](skills/builder/SKILL.md) |
+| Você precisa copiar um objeto sem conhecer sua classe, ou criar a partir de modelos pré-configurados. | [Prototype](skills/prototype/SKILL.md) |
+| Deve existir exatamente uma instância compartilhada (configuração, conexão). Antes, considere injeção de dependência. | [Singleton](skills/singleton/SKILL.md) |
+
+### Organizar a estrutura
+
+| Situação | Padrão |
+| --- | --- |
+| Uma biblioteca de terceiros ou legada tem interface diferente da que seu código espera. | [Adapter](skills/adapter/SKILL.md) |
+| As classes se multiplicam em combinações de duas dimensões (`CirculoVermelho`, `QuadradoAzul`...). | [Bridge](skills/bridge/SKILL.md) |
+| Os dados formam uma árvore (pastas e arquivos, menus, caixas com produtos) e você quer tratar item e grupo do mesmo jeito. | [Composite](skills/composite/SKILL.md) |
+| Você quer empilhar comportamentos extras (log, cache, compressão, criptografia) sem criar uma subclasse por combinação. | [Decorator](skills/decorator/SKILL.md) |
+| Usar um subsistema exige muitas classes e passos, mas você só precisa de algumas operações. | [Facade](skills/facade/SKILL.md) |
+| Há milhões de objetos parecidos e a memória está acabando. | [Flyweight](skills/flyweight/SKILL.md) |
+| Você precisa controlar o acesso a um objeto (carregar só quando usar, checar permissão, cache, chamada remota) sem mudar a interface. | [Proxy](skills/proxy/SKILL.md) |
+
+### Distribuir comportamento
+
+| Situação | Padrão |
+| --- | --- |
+| Um pedido passa por uma sequência de verificações ou processadores (middlewares, validações, alçadas de aprovação). | [Chain of Responsibility](skills/chain-of-responsibility/SKILL.md) |
+| Você quer desfazer/refazer, enfileirar, agendar ou registrar operações, ou ligar botões e atalhos a ações. | [Command](skills/command/SKILL.md) |
+| Você precisa percorrer uma coleção complexa sem expor como ela é guardada. | [Iterator](skills/iterator/SKILL.md) |
+| Vários componentes se chamam uns aos outros numa teia (campos de formulário que se afetam). | [Mediator](skills/mediator/SKILL.md) |
+| Você precisa salvar e restaurar o estado de um objeto (undo, checkpoint, rollback) sem expor campos privados. | [Memento](skills/memento/SKILL.md) |
+| Quando algo acontece num objeto, outros precisam ser avisados, e quem quer ouvir muda com o tempo. | [Observer](skills/observer/SKILL.md) |
+| O comportamento depende de um status, e há `switch (status)` repetido em vários métodos. | [State](skills/state/SKILL.md) |
+| Há várias formas de fazer a mesma coisa (frete, pagamento, desconto) e você quer escolher ou trocar em tempo de execução. | [Strategy](skills/strategy/SKILL.md) |
+| Várias classes seguem o mesmo algoritmo e só diferem em alguns passos. | [Template Method](skills/template-method/SKILL.md) |
+| Você precisa adicionar operações (exportar, calcular, validar) sobre objetos de classes diferentes sem mexer nelas. | [Visitor](skills/visitor/SKILL.md) |
+
+### Padrões que costumam ser confundidos
+
+- **Strategy × State:** no Strategy o cliente escolhe o algoritmo e as estratégias não se conhecem. No State os próprios estados trocam o estado do objeto.
+- **Strategy × Template Method:** Strategy troca o comportamento por composição, em tempo de execução. Template Method varia passos por herança e é fixo por classe.
+- **Decorator × Proxy × Adapter:** o Decorator acrescenta comportamento com a mesma interface e o cliente monta a pilha. O Proxy controla o acesso com a mesma interface e gerencia o objeto real. O Adapter muda a interface.
+- **Facade × Mediator:** a Facade simplifica o acesso a um subsistema que nem sabe que ela existe. O Mediator é o único canal de comunicação entre os componentes.
+- **Observer × Mediator:** o Observer cria assinaturas dinâmicas de mão única. O Mediator elimina dependências cruzadas centralizando a coordenação, e às vezes usa o Observer por baixo.
+- **Command × Strategy:** o Command transforma qualquer operação em objeto (fila, histórico, undo). O Strategy oferece formas diferentes de fazer a mesma coisa.
+- **Abstract Factory × Builder:** a Abstract Factory entrega na hora uma família de objetos compatíveis. O Builder monta um único objeto complexo em etapas.
+
+> Dica: se o problema ainda não existe, não aplique o padrão. Todos eles adicionam classes e indireção, e só se pagam quando a variação ou a complexidade é real.
+
 ## Como usar
 
 Cada pasta em `skills/` contém um `SKILL.md` com frontmatter `name` e `description`. Copie as pastas
